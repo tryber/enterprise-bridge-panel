@@ -5,10 +5,12 @@ const EnterpriseContext = createContext();
 const EnterpriseProvider = ({ children }) => {
   const [energyGauge, setEnergyGauge] = useState(0);
   const [warpSpeed, setWarpSpeed] = useState(false);
+  const [weaponsLevel, setWeaponsLevel] = useState(0);
+  const [weaponsEnabled, setWeaponsEnabled] = useState(true);
   const [shieldsOnline, setShieldsOnline] = useState(false);
 
   const engageWarpSpeed = () => {
-    if (shieldsOnline || energyGauge > 2) return undefined;
+    if (weaponsEnabled || shieldsOnline || energyGauge > 2) return undefined;
 
     setWarpSpeed(true);
     setEnergyGauge(2);
@@ -19,6 +21,35 @@ const EnterpriseProvider = ({ children }) => {
 
     setWarpSpeed(false);
     setEnergyGauge(energyGauge - 2);
+  };
+
+  const weaponsOffline = () => {
+    if (warpSpeed || !weaponsEnabled) return undefined;
+
+    setWeaponsEnabled(false);
+    setWeaponsLevel(0);
+    setEnergyGauge(energyGauge - weaponsLevel);
+  };
+
+  const weaponsOnline = () => {
+    if (warpSpeed || weaponsEnabled) return undefined;
+
+    setWeaponsEnabled(true);
+  };
+
+  const increaseFirepower = () => {
+    if (warpSpeed || weaponsLevel === 3 || energyGauge === 4 || !weaponsEnabled)
+      return undefined;
+
+    setEnergyGauge(energyGauge + 1);
+    setWeaponsLevel(weaponsLevel + 1);
+  };
+
+  const decreaseFirepower = () => {
+    if (warpSpeed || weaponsLevel === 0 || energyGauge === 0) return undefined;
+
+    setEnergyGauge(energyGauge - 1);
+    setWeaponsLevel(weaponsLevel - 1);
   };
 
   const raiseShields = () => {
@@ -38,9 +69,15 @@ const EnterpriseProvider = ({ children }) => {
   const context = {
     energyGauge,
     warpSpeed,
+    weaponsOffline,
+    weaponsOnline,
+    weaponsLevel,
+    weaponsEnabled,
     shieldsOnline,
     engageWarpSpeed,
     disengageWarpSpeed,
+    increaseFirepower,
+    decreaseFirepower,
     raiseShields,
     lowerShields,
   };
