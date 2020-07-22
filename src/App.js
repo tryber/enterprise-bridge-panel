@@ -1,7 +1,7 @@
-import React from "react";
+import React from 'react';
 
-import { Provider } from "./components/EnterpriseContext.js";
-import Panel from "./components/Panel.js";
+import { Provider } from './components/EnterpriseContext';
+import Panel from './components/Panel';
 
 function App() {
   return (

@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { EnterpriseContext } from './EnterpriseContext.js';
+import { EnterpriseContext } from './EnterpriseContext';
 
 import './Panel.css';
 

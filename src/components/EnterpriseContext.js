@@ -10,17 +10,17 @@ const EnterpriseProvider = ({ children }) => {
   const [shieldsOnline, setShieldsOnline] = useState(false);
 
   const engageWarpSpeed = () => {
-    if (weaponsEnabled || shieldsOnline || energyGauge > 2) return undefined;
+    if (warpSpeed || shieldsOnline || weaponsEnabled || energyGauge > 2) return undefined;
 
     setWarpSpeed(true);
-    setEnergyGauge(2);
+    setEnergyGauge((curretEnergyGauge) => curretEnergyGauge + 2);
   };
 
   const disengageWarpSpeed = () => {
     if (!warpSpeed) return undefined;
 
     setWarpSpeed(false);
-    setEnergyGauge(energyGauge - 2);
+    setEnergyGauge((curretEnergyGauge) => curretEnergyGauge - 2);
   };
 
   const weaponsOffline = () => {
@@ -28,7 +28,7 @@ const EnterpriseProvider = ({ children }) => {
 
     setWeaponsEnabled(false);
     setWeaponsLevel(0);
-    setEnergyGauge(energyGauge - weaponsLevel);
+    setEnergyGauge((curretEnergyGauge) => curretEnergyGauge - weaponsLevel);
   };
 
   const weaponsOnline = () => {
@@ -41,28 +41,28 @@ const EnterpriseProvider = ({ children }) => {
     if (warpSpeed || weaponsLevel === 3 || energyGauge === 4 || !weaponsEnabled)
       return undefined;
 
-    setEnergyGauge(energyGauge + 1);
-    setWeaponsLevel(weaponsLevel + 1);
+    setEnergyGauge((curretEnergyGauge) => curretEnergyGauge + 1);
+    setWeaponsLevel((currentWeaponsLevel) => currentWeaponsLevel + 1);
   };
 
   const decreaseFirepower = () => {
-    if (warpSpeed || weaponsLevel === 0 || energyGauge === 0) return undefined;
+    if (warpSpeed || weaponsLevel === 0 || energyGauge === 0 || !weaponsEnabled) return undefined;
 
-    setEnergyGauge(energyGauge - 1);
-    setWeaponsLevel(weaponsLevel - 1);
+    setEnergyGauge((curretEnergyGauge) => curretEnergyGauge - 1);
+    setWeaponsLevel((currentWeaponsLevel) => currentWeaponsLevel - 1);
   };
 
   const raiseShields = () => {
-    if (warpSpeed || energyGauge > 2) return undefined;
+    if (warpSpeed || shieldsOnline || energyGauge > 2) return undefined;
 
-    setEnergyGauge(energyGauge + 2);
     setShieldsOnline(true);
+    setEnergyGauge((curretEnergyGauge) => curretEnergyGauge + 2);
   };
 
   const lowerShields = () => {
-    if (warpSpeed || energyGauge === 0) return undefined;
+    if (!shieldsOnline || energyGauge === 0) return undefined;
 
-    setEnergyGauge(energyGauge - 2);
+    setEnergyGauge((curretEnergyGauge) => curretEnergyGauge - 2);
     setShieldsOnline(false);
   };
 
